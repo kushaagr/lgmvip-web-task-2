@@ -1,0 +1,14 @@
+.user-card {
+  @apply m-2 flex flex-col 
+  items-center rounded-md 
+  border-2 border-solid p-5;
+}
+
+.user-card__text {
+    @apply text-center p-0 m-0.5;
+}
+
+.user-card__image {
+    @apply rounded-full
+}
+

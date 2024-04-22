@@ -2,8 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+@layer utilities {
+  .stagger-animation {
+    opacity: 0;
+    animation: 
+      ease 1500ms stagger calc(var(--delayOrder, 1) * 100ms) forwards,
+      ease 300ms scale-up calc(var(--delayOrder, 1) * 100ms) forwards;
+  }
+
+  @keyframes stagger {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes scale-up {
+    from {
+      scale: 0.5;
+    }
+    to {
+      scale: 1;
+    }
+  }
 }
+
 
 @layer base {
   * {
@@ -93,18 +117,3 @@
   }
 }
 
-@layer utilities {
-  .stagger-animation {
-    opacity: 0;
-    animation: ease 1500ms stagger calc(var(--delayOrder, 1) * 100ms) forwards;
-  }
-
-  @keyframes stagger {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-}

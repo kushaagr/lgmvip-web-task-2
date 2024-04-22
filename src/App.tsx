@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Progress } from "@chakra-ui/react";
+import { Skeleton } from "@/components/ui/skeleton";
+import './user-card.css';
 // import { Skeleton, SkeletonCircle, SkeletonText } from '@chakra-ui/react'
 
 let controller: AbortController;
@@ -137,7 +139,7 @@ function UsersGrid(props: { className?: string; data: User[] }) {
     <div id="usersContainer" className={`${props.className}`}>
       {props.data.map((user) => (
         <div
-          className={"stagger-animation"}
+          className={"stagger-animation user-card"}
           style={{ "--delayOrder": user.id } as React.CSSProperties}
         >
           <img
@@ -146,8 +148,9 @@ function UsersGrid(props: { className?: string; data: User[] }) {
             height={100}
             src={user.avatar}
             alt="User's display picture"
+            className="user-card__image"
           />
-          <p>
+          <p className="user-card__text">
             <strong>
               <span>{user.first_name}</span> <span>{user.last_name}</span>
             </strong>
@@ -166,8 +169,9 @@ function SkeletonGrid(props: { className?: string; items?: number }) {
     <div id="skeletonContainer" className={`${props.className}`}>
       {Array.from({ length: items }).map((_, index) => (
         <div className="user-card">
-          <SkeletonCircle />
-          <SkeletonText />
+          <Skeleton className="user-card__image size-20 mb-3 rounded-full" />
+          <Skeleton className="user-card__text mb-2 h-4 w-[200px] max-w-full" />
+          <Skeleton className="user-card__text h-4 w-[250px] max-w-full" />
         </div>
       ))}
     </div>
@@ -182,15 +186,16 @@ function Home() {
   return (
     <main className="min-h-screen p-2 ">
       <Navbar className="z-10 flex w-full items-center justify-between font-mono text-sm" />
+      {/* <SkeletonGrid items={10} className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 p-10" /> */}
       {loading == true ? (
         <>
           <Progress size="xs" isIndeterminate />
-          <SkeletonGrid items={10} className="grid grid-cols-5 p-10" />
+          <SkeletonGrid items={10} className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 p-10" />
         </>
       ) : (
         <UsersGrid
           data={response?.data ?? []}
-          className="grid grid-cols-5 p-10"
+          className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 p-10"
         />
       )}
       {/* <div className="bg-inherit rounded-lg shadow-md p-6">some text</div> */}
