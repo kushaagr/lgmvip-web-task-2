@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Progress } from "@chakra-ui/react";
+// import { Skeleton, SkeletonCircle, SkeletonText } from '@chakra-ui/react'
 
 let controller: AbortController;
 
@@ -133,17 +134,40 @@ interface ApiResponse {
 
 function UsersGrid(props: { className?: string; data: User[] }) {
   return (
-    <div className={`${props.className}`}>
+    <div id="usersContainer" className={`${props.className}`}>
       {props.data.map((user) => (
         <div
           className={"stagger-animation"}
           style={{ "--delayOrder": user.id } as React.CSSProperties}
         >
-          <img loading="eager" width={100} height={100} src={user.avatar} alt="User's display picture" />
+          <img
+            loading="eager"
+            width={100}
+            height={100}
+            src={user.avatar}
+            alt="User's display picture"
+          />
           <p>
-            <strong><span>{user.first_name}</span> <span>{user.last_name}</span></strong>
+            <strong>
+              <span>{user.first_name}</span> <span>{user.last_name}</span>
+            </strong>
           </p>
           <a href={`mailto:${user.email}`}>{user.email}</a>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function SkeletonGrid(props: { className?: string; items?: number }) {
+  const { items = 6 } = props;
+
+  return (
+    <div id="skeletonContainer" className={`${props.className}`}>
+      {Array.from({ length: items }).map((_, index) => (
+        <div className="user-card">
+          <SkeletonCircle />
+          <SkeletonText />
         </div>
       ))}
     </div>
@@ -158,13 +182,17 @@ function Home() {
   return (
     <main className="min-h-screen p-2 ">
       <Navbar className="z-10 flex w-full items-center justify-between font-mono text-sm" />
-      {loading == true ? 
-        <Progress size="xs" isIndeterminate /> : 
+      {loading == true ? (
+        <>
+          <Progress size="xs" isIndeterminate />
+          <SkeletonGrid items={10} className="grid grid-cols-5 p-10" />
+        </>
+      ) : (
         <UsersGrid
           data={response?.data ?? []}
           className="grid grid-cols-5 p-10"
         />
-      }
+      )}
       {/* <div className="bg-inherit rounded-lg shadow-md p-6">some text</div> */}
 
       <GetUsersButton
