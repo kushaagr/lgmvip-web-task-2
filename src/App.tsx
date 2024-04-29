@@ -1,10 +1,32 @@
 import { useState } from "react";
 import { Progress } from "@chakra-ui/react";
 import { Skeleton } from "@/components/ui/skeleton";
-import './user-card.css';
+import "./user-card.css";
 // import { Skeleton, SkeletonCircle, SkeletonText } from '@chakra-ui/react'
 
 let controller: AbortController;
+
+interface User {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  avatar: string;
+}
+
+interface Support {
+  url: string;
+  text: string;
+}
+
+interface ApiResponse {
+  page: number;
+  per_page: number;
+  total: number;
+  total_pages: number;
+  data: User[];
+  support: Support;
+}
 
 function Icon(props: { className?: string }) {
   return (
@@ -38,13 +60,13 @@ function Navbar(props: { className?: string }) {
   );
 }
 
-const GetUsersButton = (props: {
+function GetUsersButton(props: {
   children?: React.ReactNode;
   className: string;
   loading: boolean;
   setLoading: Function;
   setData: Function;
-}) => {
+}) {
   const handleClick = () => {
     console.log("loading:", props.loading);
     props.setLoading(true);
@@ -56,8 +78,7 @@ const GetUsersButton = (props: {
 
     controller = new AbortController();
 
-    /*
-     */
+    
     let timer = setTimeout(() => {
       fetch(`https://reqres.in/api/users?page=1&per_page=10`, {
         method: "get",
@@ -110,28 +131,6 @@ const GetUsersButton = (props: {
       {/* <button className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 active:bg-blue-700"> */}
     </div>
   );
-};
-
-interface User {
-  id: number;
-  email: string;
-  first_name: string;
-  last_name: string;
-  avatar: string;
-}
-
-interface Support {
-  url: string;
-  text: string;
-}
-
-interface ApiResponse {
-  page: number;
-  per_page: number;
-  total: number;
-  total_pages: number;
-  data: User[];
-  support: Support;
 }
 
 function UsersGrid(props: { className?: string; data: User[] }) {
@@ -169,7 +168,7 @@ function SkeletonGrid(props: { className?: string; items?: number }) {
     <div id="skeletonContainer" className={`${props.className}`}>
       {Array.from({ length: items }).map((_, index) => (
         <div className="user-card">
-          <Skeleton className="user-card__image size-20 mb-3 rounded-full" />
+          <Skeleton className="user-card__image mb-3 size-20 rounded-full" />
           <Skeleton className="user-card__text mb-2 h-4 w-[200px] max-w-full" />
           <Skeleton className="user-card__text h-4 w-[250px] max-w-full" />
         </div>
@@ -190,12 +189,15 @@ function Home() {
       {loading == true ? (
         <>
           <Progress size="xs" isIndeterminate />
-          <SkeletonGrid items={10} className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 p-10" />
+          <SkeletonGrid
+            items={10}
+            className="grid grid-cols-1 p-10 sm:grid-cols-3 lg:grid-cols-5"
+          />
         </>
       ) : (
         <UsersGrid
           data={response?.data ?? []}
-          className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 p-10"
+          className="grid grid-cols-1 p-10 sm:grid-cols-3 lg:grid-cols-5"
         />
       )}
       {/* <div className="bg-inherit rounded-lg shadow-md p-6">some text</div> */}
