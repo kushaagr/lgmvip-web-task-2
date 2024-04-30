@@ -23,3 +23,8 @@ npm run dev
 ```
 
 ## Screenshot and Demo
+![chrome_1714452671](https://github.com/kushaagr/lgmvip-web-task-2/assets/68564934/eb8c5943-5f8d-4e77-bba3-df5206e24b70)
+
+
+https://github.com/kushaagr/lgmvip-web-task-2/assets/68564934/57ffc8c3-0dbe-4d11-bbd3-b955f2dd67e5
+
