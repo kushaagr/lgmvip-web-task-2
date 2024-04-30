@@ -14,4 +14,12 @@ Task 2 of LetsGrowMore [task list](https://www.canva.com/design/DAEhLWUJEDM/qVR2
 - Shadcn-Ui
 - TailwindCSS
 
+## Use
+```bash
+npm install
+```
+```bash
+npm run dev
+```
+
 ## Screenshot and Demo
